@@ -1,0 +1,44 @@
+{
+  "name": "claude-usage-statusbar",
+  "displayName": "Claude Usage",
+  "description": "Show Claude Code 5h / 7d usage in the VS Code status bar.",
+  "version": "0.1.0",
+  "publisher": "local",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "main": "./extension.js",
+  "activationEvents": ["onStartupFinished"],
+  "contributes": {
+    "commands": [
+      {
+        "command": "claudeUsage.refresh",
+        "title": "Claude Usage: Refresh now"
+      },
+      {
+        "command": "claudeUsage.setupBridge",
+        "title": "Claude Usage: Set up statusLine bridge"
+      }
+    ],
+    "configuration": {
+      "title": "Claude Usage",
+      "properties": {
+        "claudeUsage.oauthToken": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Long-lived token from `claude setup-token`. Enables session-independent polling of your usage. Leave empty to show only data pushed by an active Claude Code session (the statusLine bridge)."
+        },
+        "claudeUsage.pollIntervalSeconds": {
+          "type": "number",
+          "default": 1800,
+          "minimum": 0,
+          "markdownDescription": "How often (seconds) to poll the usage API when a token is set. The endpoint is aggressively rate-limited, so keep this high (≥1800 / 30 min recommended). Set to `0` to disable automatic polling and only refresh when you click the status-bar item."
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0"
+  }
+}
